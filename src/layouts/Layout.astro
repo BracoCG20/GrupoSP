@@ -1,6 +1,8 @@
 ---
 // src/layouts/Layout.astro
 import '../styles/main.scss';
+import Header from '../components/shared/Header.astro';
+import { getAlternatePaths } from '../i18n/utils';
 
 interface Props {
 	title?: string;
@@ -23,10 +25,9 @@ const {
 } = Astro.props;
 
 const siteUrl = new URL('https://gruposp.pe');
-const pagePath = Astro.url.pathname;
-const spanishPath = lang === 'en' ? pagePath.replace(/^\/en(?=\/|$)/, '') || '/' : pagePath;
+const { es: spanishPath, en: englishPath } = getAlternatePaths(Astro.url.pathname);
 const spanishUrl = new URL(spanishPath, siteUrl).toString();
-const englishUrl = new URL(`/en${spanishPath === '/' ? '' : spanishPath}`, siteUrl).toString();
+const englishUrl = new URL(englishPath, siteUrl).toString();
 const canonicalUrl = lang === 'en' ? englishUrl : spanishUrl;
 const imageUrl = image ? new URL(image, siteUrl).toString() : undefined;
 const resolvedImageWidth = imageWidth ?? (image === '/bgMain.webp' ? 2912 : undefined);
@@ -74,6 +75,7 @@ const resolvedImageHeight = imageHeight ?? (image === '/bgMain.webp' ? 1632 : un
 		/>
 	</head>
 	<body>
+		<Header lang={lang} />
 		<slot />
 	</body>
 </html>

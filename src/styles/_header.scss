@@ -1,0 +1,183 @@
+// src/styles/_header.scss
+@use "variables" as *;
+@use "breakpoints" as *;
+
+.header {
+	grid-area: header;
+}
+
+.nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 90;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	padding: 1.25rem clamp(1.25rem, 5vw, 2.5rem);
+	background-color: transparent;
+	transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+
+	&--scrolled {
+		background-color: rgba(0, 0, 0, 0.2);
+		-webkit-backdrop-filter: blur(10px);
+		backdrop-filter: blur(10px);
+	}
+
+	&__logo {
+		display: block;
+		width: 130px;
+		height: auto;
+	}
+
+	&__toggle {
+		display: grid;
+		place-items: center;
+		width: 44px;
+		height: 44px;
+		padding: 0;
+		border: 0;
+		background: none;
+		color: $color-secondary;
+		cursor: pointer;
+
+		&:focus-visible {
+			outline: 2px solid $color-secondary;
+			outline-offset: 3px;
+		}
+	}
+
+	&__logo-link:focus-visible {
+		outline: 2px solid $color-secondary;
+		outline-offset: 3px;
+	}
+
+	@include tablet {
+		.nav__toggle {
+			color: rgba(0, 0, 0, 0.5);
+		}
+	}
+
+	@include desktop {
+		padding: 1rem 5rem;
+	}
+
+	@include maxDesktop {
+		padding: 1.1rem 6.25rem;
+	}
+}
+
+.nav--scrolled .nav__toggle {
+	color: $color-white;
+}
+
+.sidebar {
+	position: fixed;
+	top: 0;
+	right: 0;
+	z-index: 1000;
+	display: flex;
+	flex-direction: column;
+	gap: 1.75rem;
+	width: min(100%, 300px);
+	height: 100vh;
+	height: 100dvh;
+	padding: 2.5rem;
+	background-color: rgba(32, 26, 26, 0.92);
+	-webkit-backdrop-filter: blur(10px);
+	backdrop-filter: blur(10px);
+	overflow-y: auto;
+	visibility: hidden;
+	opacity: 0;
+	transform: translateX(100%);
+	pointer-events: none;
+	transition: transform 0.4s ease, opacity 0.4s ease, visibility 0.4s ease;
+
+	&--active {
+		visibility: visible;
+		opacity: 1;
+		transform: translateX(0);
+		pointer-events: auto;
+	}
+
+	&__top {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	&__language {
+		color: $color-white;
+		font-size: 1.25rem;
+		font-weight: 700;
+		text-decoration: underline;
+	}
+
+	&__close {
+		display: grid;
+		place-items: center;
+		width: 44px;
+		height: 44px;
+		padding: 0;
+		border: 0;
+		background: none;
+		color: $color-white;
+		cursor: pointer;
+
+		&:focus-visible {
+			outline: 2px solid $color-secondary;
+			outline-offset: 3px;
+		}
+	}
+
+	.btn--contact {
+		align-self: flex-start;
+		padding: 0.75rem 1.25rem;
+		border: 1px solid $color-secondary;
+		color: $color-white;
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	&__menu {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	&__item + &__item {
+		margin-top: 1.25rem;
+	}
+
+	&__link {
+		color: rgba(255, 255, 255, 0.8);
+		font-size: 1.2rem;
+		font-weight: 500;
+		text-decoration: none;
+		text-transform: uppercase;
+
+		&--active,
+		&:hover {
+			color: $color-secondary;
+		}
+	}
+
+	&__language:focus-visible,
+	&__link:focus-visible,
+	.btn--contact:focus-visible {
+		outline: 2px solid $color-secondary;
+		outline-offset: 3px;
+	}
+
+	@include maxDesktop {
+		width: 400px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.nav,
+	.sidebar {
+		transition: none;
+	}
+}

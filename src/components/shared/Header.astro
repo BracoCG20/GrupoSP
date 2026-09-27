@@ -1,0 +1,116 @@
+---
+// src/components/shared/Header.astro
+import { Menu, X } from '@lucide/astro';
+import logo from '../../assets/logo.webp';
+import { getRoutePath, useTranslations, type Lang } from '../../i18n/utils';
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const otherLang: Lang = lang === 'es' ? 'en' : 'es';
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const menuLinks = [
+	{ route: 'home', label: t('header.home') },
+	{ route: 'about', label: t('header.about') },
+	{ route: 'companies', label: t('header.companies') },
+] as const;
+---
+
+<header class="header">
+	<nav id="navbar" class="nav" aria-label={t('header.menu.label')}>
+		<a href={getRoutePath('home', lang)} class="nav__logo-link" aria-label={t('header.home')}>
+			<img id="logo" src={logo.src} alt={t('header.logo')} class="nav__logo" width="130" height="27" />
+		</a>
+		<button
+			id="btnMenu"
+			class="nav__toggle"
+			type="button"
+			aria-expanded="false"
+			aria-controls="sidebar"
+			aria-label={t('header.menu.open')}
+		>
+			<Menu size={32} stroke-width={2.5} aria-hidden="true" />
+		</button>
+	</nav>
+
+	<div id="sidebar" class="sidebar" aria-hidden="true" inert>
+		<div class="sidebar__top">
+			<a
+				href={getRoutePath('home', otherLang)}
+				class="sidebar__language"
+				lang={otherLang}
+				hreflang={otherLang}
+			>
+				{otherLang.toUpperCase()}
+			</a>
+			<button id="btnCloseMenu" class="sidebar__close" type="button" aria-label={t('header.menu.close')}>
+				<X size={30} stroke-width={2.5} aria-hidden="true" />
+			</button>
+		</div>
+		<a href={getRoutePath('contact', lang)} class="btn btn--contact">{t('header.contact')}</a>
+		<ul class="sidebar__menu">
+			{menuLinks.map(({ route, label }) => {
+				const href = getRoutePath(route, lang);
+				const isActive = currentPath === href;
+				return (
+					<li class="sidebar__item">
+						<a
+							href={href}
+							class:list={['sidebar__link', { 'sidebar__link--active': isActive }]}
+							aria-current={isActive ? 'page' : undefined}
+						>
+							{label}
+						</a>
+					</li>
+				);
+			})}
+		</ul>
+	</div>
+</header>
+
+<script>
+	const header = document.querySelector<HTMLElement>('.header');
+	const nav = header?.querySelector<HTMLElement>('.nav');
+	const toggle = header?.querySelector<HTMLButtonElement>('.nav__toggle');
+	const sidebar = header?.querySelector<HTMLElement>('.sidebar');
+	const closeButton = header?.querySelector<HTMLButtonElement>('.sidebar__close');
+
+	if (header && nav && toggle && sidebar && closeButton) {
+		const setOpen = (open: boolean, restoreFocus = false) => {
+			sidebar.classList.toggle('sidebar--active', open);
+			sidebar.toggleAttribute('inert', !open);
+			sidebar.setAttribute('aria-hidden', String(!open));
+			toggle.setAttribute('aria-expanded', String(open));
+			if (open) closeButton.focus();
+			else if (restoreFocus) toggle.focus();
+		};
+
+		toggle.addEventListener('click', () => setOpen(true));
+		closeButton.addEventListener('click', () => setOpen(false, true));
+		document.addEventListener('keydown', (event) => {
+			if (event.key === 'Escape' && sidebar.classList.contains('sidebar--active')) {
+				setOpen(false, true);
+			}
+		});
+		document.addEventListener('pointerdown', (event) => {
+			if (
+				sidebar.classList.contains('sidebar--active') &&
+				event.target instanceof Node &&
+				!sidebar.contains(event.target) &&
+				!toggle.contains(event.target)
+			) {
+				setOpen(false);
+			}
+		});
+		sidebar.querySelectorAll<HTMLAnchorElement>('a').forEach((link) => {
+			link.addEventListener('click', () => setOpen(false));
+		});
+
+		const updateScrolled = () => nav.classList.toggle('nav--scrolled', window.scrollY > 8);
+		updateScrolled();
+		window.addEventListener('scroll', updateScrolled, { passive: true });
+	}
+</script>
