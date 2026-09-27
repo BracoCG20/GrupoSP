@@ -21,35 +21,35 @@ const menuLinks = [
 
 <header class="header">
 	<nav id="navbar" class="nav" aria-label={t('header.menu.label')}>
-		<a href={getRoutePath('home', lang)} class="nav__logo-link" aria-label={t('header.home')}>
-			<img id="logo" src={logo.src} alt={t('header.logo')} class="nav__logo" width="130" height="27" />
-		</a>
-		<button
-			id="btnMenu"
-			class="nav__toggle"
-			type="button"
-			aria-expanded="false"
-			aria-controls="sidebar"
-			aria-label={t('header.menu.open')}
-		>
-			<Menu size={32} stroke-width={2.5} aria-hidden="true" />
-		</button>
+		<div class="nav__inner">
+			<a href={getRoutePath('home', lang)} class="nav__logo-link" aria-label={t('header.home')}>
+				<img id="logo" src={logo.src} alt={t('header.logo')} class="nav__logo" width="130" height="27" />
+			</a>
+			<button
+				id="btnMenu"
+				class="nav__toggle"
+				type="button"
+				aria-expanded="false"
+				aria-controls="sidebar"
+				aria-label={t('header.menu.open')}
+				data-label-open={t('header.menu.open')}
+				data-label-close={t('header.menu.close')}
+			>
+				<Menu class="nav__icon nav__icon--menu" size={32} stroke-width={2.5} aria-hidden="true" />
+				<X class="nav__icon nav__icon--close" size={32} stroke-width={2.5} aria-hidden="true" />
+			</button>
+		</div>
 	</nav>
 
 	<div id="sidebar" class="sidebar" aria-hidden="true" inert>
-		<div class="sidebar__top">
-			<a
-				href={getRoutePath('home', otherLang)}
-				class="sidebar__language"
-				lang={otherLang}
-				hreflang={otherLang}
-			>
-				{otherLang.toUpperCase()}
-			</a>
-			<button id="btnCloseMenu" class="sidebar__close" type="button" aria-label={t('header.menu.close')}>
-				<X size={30} stroke-width={2.5} aria-hidden="true" />
-			</button>
-		</div>
+		<a
+			href={getRoutePath('home', otherLang)}
+			class="sidebar__language"
+			lang={otherLang}
+			hreflang={otherLang}
+		>
+			{otherLang.toUpperCase()}
+		</a>
 		<a href={getRoutePath('contact', lang)} class="btn btn--contact">{t('header.contact')}</a>
 		<ul class="sidebar__menu">
 			{menuLinks.map(({ route, label }) => {
@@ -72,45 +72,157 @@ const menuLinks = [
 </header>
 
 <script>
-	const header = document.querySelector<HTMLElement>('.header');
-	const nav = header?.querySelector<HTMLElement>('.nav');
-	const toggle = header?.querySelector<HTMLButtonElement>('.nav__toggle');
-	const sidebar = header?.querySelector<HTMLElement>('.sidebar');
-	const closeButton = header?.querySelector<HTMLButtonElement>('.sidebar__close');
+	import gsap from 'gsap';
 
-	if (header && nav && toggle && sidebar && closeButton) {
-		const setOpen = (open: boolean, restoreFocus = false) => {
-			sidebar.classList.toggle('sidebar--active', open);
-			sidebar.toggleAttribute('inert', !open);
-			sidebar.setAttribute('aria-hidden', String(!open));
-			toggle.setAttribute('aria-expanded', String(open));
-			if (open) closeButton.focus();
-			else if (restoreFocus) toggle.focus();
-		};
+	let cleanupHeader: (() => void) | undefined;
 
-		toggle.addEventListener('click', () => setOpen(true));
-		closeButton.addEventListener('click', () => setOpen(false, true));
-		document.addEventListener('keydown', (event) => {
-			if (event.key === 'Escape' && sidebar.classList.contains('sidebar--active')) {
-				setOpen(false, true);
-			}
+	function initHeader() {
+		cleanupHeader?.();
+		const header = document.querySelector<HTMLElement>('.header');
+		const nav = header?.querySelector<HTMLElement>('.nav');
+		const toggle = header?.querySelector<HTMLButtonElement>('.nav__toggle');
+		const sidebar = header?.querySelector<HTMLElement>('.sidebar');
+		if (!header || !nav || !toggle || !sidebar) return;
+
+		const controller = new AbortController();
+		const { signal } = controller;
+		const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+		const accentColor = getComputedStyle(sidebar).getPropertyValue('--sidebar-accent').trim();
+		const links = Array.from(sidebar.querySelectorAll<HTMLAnchorElement>('a'));
+		const labels = links.map((link) => link.textContent?.trim() ?? '');
+		const characters = links.map((link, index) => {
+			const fragment = document.createDocumentFragment();
+			const spans = Array.from(labels[index], (letter) => {
+				const span = document.createElement('span');
+				span.className = 'sidebar__char';
+				span.textContent = letter === ' ' ? '\u00a0' : letter;
+				span.setAttribute('aria-hidden', 'true');
+				fragment.append(span);
+				return span;
+			});
+			link.setAttribute('aria-label', labels[index]);
+			link.replaceChildren(fragment);
+			return spans;
 		});
-		document.addEventListener('pointerdown', (event) => {
-			if (
-				sidebar.classList.contains('sidebar--active') &&
-				event.target instanceof Node &&
-				!sidebar.contains(event.target) &&
-				!toggle.contains(event.target)
-			) {
-				setOpen(false);
-			}
-		});
-		sidebar.querySelectorAll<HTMLAnchorElement>('a').forEach((link) => {
-			link.addEventListener('click', () => setOpen(false));
-		});
+		const allCharacters = characters.flat();
+		let isOpen = false;
+		let entrance: ReturnType<typeof gsap.timeline> | undefined;
+
+		gsap.set(sidebar, { xPercent: 100, autoAlpha: 0 });
 
 		const updateScrolled = () => nav.classList.toggle('nav--scrolled', window.scrollY > 8);
 		updateScrolled();
-		window.addEventListener('scroll', updateScrolled, { passive: true });
+		window.addEventListener('scroll', updateScrolled, { passive: true, signal });
+
+		const setOpen = (open: boolean, restoreFocus = false) => {
+			if (isOpen === open) return;
+			isOpen = open;
+			entrance?.kill();
+			gsap.killTweensOf(sidebar);
+			gsap.killTweensOf(allCharacters);
+			toggle.setAttribute('aria-expanded', String(open));
+			toggle.setAttribute('aria-label', toggle.dataset[open ? 'labelClose' : 'labelOpen'] ?? '');
+			header.classList.toggle('header--menu-open', open);
+			sidebar.toggleAttribute('inert', !open);
+			sidebar.setAttribute('aria-hidden', String(!open));
+
+			if (open) {
+				sidebar.classList.add('sidebar--active');
+				if (reduceMotion.matches) {
+					gsap.set(sidebar, { xPercent: 0, autoAlpha: 1 });
+					gsap.set(allCharacters, { clearProps: 'opacity,transform,color' });
+					links[0]?.focus({ preventScroll: true });
+					return;
+				}
+				entrance = gsap.timeline({
+					onComplete: () => links[0]?.focus({ preventScroll: true }),
+				});
+				entrance.to(sidebar, { xPercent: 0, autoAlpha: 1, duration: 0.55, ease: 'power3.out' });
+				entrance.fromTo(
+					allCharacters,
+					{ yPercent: 110, opacity: 0 },
+					{ yPercent: 0, opacity: 1, duration: 0.35, stagger: 0.018, ease: 'power2.out' },
+					'-=0.25',
+				);
+			} else {
+				if (restoreFocus || sidebar.contains(document.activeElement)) {
+					toggle.focus({ preventScroll: true });
+				}
+				if (reduceMotion.matches) {
+					gsap.set(sidebar, { xPercent: 100, autoAlpha: 0 });
+					sidebar.classList.remove('sidebar--active');
+				} else {
+					gsap.to(sidebar, {
+						xPercent: 100,
+						autoAlpha: 0,
+						duration: 0.4,
+						ease: 'power3.in',
+						onComplete: () => sidebar.classList.remove('sidebar--active'),
+					});
+				}
+			}
+		};
+
+		toggle.addEventListener('click', () => setOpen(!isOpen, isOpen), { signal });
+		document.addEventListener('keydown', (event) => {
+			if (event.key === 'Escape' && isOpen) setOpen(false, true);
+		}, { signal });
+		document.addEventListener('pointerdown', (event) => {
+			if (
+				isOpen && event.target instanceof Node &&
+				!sidebar.contains(event.target) && !toggle.contains(event.target)
+			) setOpen(false);
+		}, { signal });
+
+		links.forEach((link, index) => {
+			link.addEventListener('click', () => setOpen(false), { signal });
+			const accent = () => {
+				if (reduceMotion.matches) return;
+				gsap.to(characters[index], {
+					color: accentColor, y: -3, duration: 0.2, stagger: 0.025, overwrite: 'auto',
+				});
+			};
+			const reset = () => {
+				if (reduceMotion.matches) return;
+				gsap.to(characters[index], {
+					color: link.classList.contains('sidebar__link--active')
+						? accentColor
+						: link.classList.contains('sidebar__link') ? 'rgba(255, 255, 255, 0.8)' : '#ffffff',
+					y: 0, duration: 0.2, stagger: 0.02, overwrite: 'auto',
+				});
+			};
+			link.addEventListener('pointerenter', accent, { signal });
+			link.addEventListener('pointerleave', reset, { signal });
+			link.addEventListener('focus', accent, { signal });
+			link.addEventListener('blur', reset, { signal });
+		});
+
+		cleanupHeader = () => {
+			controller.abort();
+			entrance?.kill();
+			gsap.killTweensOf([sidebar, ...allCharacters]);
+			header.classList.remove('header--menu-open');
+			sidebar.classList.remove('sidebar--active');
+			sidebar.setAttribute('aria-hidden', 'true');
+			sidebar.setAttribute('inert', '');
+			toggle.setAttribute('aria-expanded', 'false');
+			toggle.setAttribute('aria-label', toggle.dataset.labelOpen ?? '');
+			links.forEach((link, index) => {
+				link.textContent = labels[index];
+				link.removeAttribute('aria-label');
+			});
+			gsap.set(sidebar, { clearProps: 'all' });
+		};
+	}
+
+	document.addEventListener('astro:page-load', initHeader);
+	document.addEventListener('astro:before-swap', () => {
+		cleanupHeader?.();
+		cleanupHeader = undefined;
+	});
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initHeader, { once: true });
+	} else {
+		initHeader();
 	}
 </script>

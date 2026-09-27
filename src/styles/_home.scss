@@ -12,8 +12,12 @@
 	padding: 6rem clamp(2rem, 12vw, 3.5rem) 5rem;
 	color: $color-white;
 	background-color: $color-primary;
-	background-image: linear-gradient(rgba(11, 35, 57, 0.22), rgba(11, 35, 57, 0.22)), url('/bgMain.webp');
-	background-position: center, 72% center;
+	background-image:
+		linear-gradient(rgba(11, 35, 57, 0.22), rgba(11, 35, 57, 0.22)),
+		url("/bgMain.webp");
+	background-position:
+		center,
+		72% center;
 	background-size: cover;
 	background-repeat: no-repeat;
 
@@ -80,101 +84,101 @@
 }
 
 .brands-loop {
-  width: 100%;
-  max-width: $content-max-width;
-  margin-inline: auto;
-  padding-block: 1.5rem;
-  background-color: $color-white;
+	width: 100%;
+	max-width: $content-max-width;
+	margin-inline: auto;
+	padding-block: 1.5rem;
+	background-color: $color-white;
 
-  &__viewport {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
+	&__viewport {
+		position: relative;
+		width: 100%;
+		overflow: hidden;
 
-    &:focus-visible {
-      outline: 2px solid $color-secondary;
-      outline-offset: -2px;
-    }
+		&:focus-visible {
+			outline: 2px solid $color-secondary;
+			outline-offset: -2px;
+		}
 
-    &::before,
-    &::after {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      z-index: 1;
-      width: clamp(2rem, 8vw, 8rem);
-      content: '';
-      pointer-events: none;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-    }
+		&::before,
+		&::after {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			z-index: 1;
+			width: clamp(2rem, 8vw, 8rem);
+			content: "";
+			pointer-events: none;
+			backdrop-filter: blur(8px);
+			-webkit-backdrop-filter: blur(8px);
+		}
 
-    &::before {
-      left: 0;
-      background: linear-gradient(to right, $color-white, transparent);
-      -webkit-mask-image: linear-gradient(to right, #000, transparent);
-      mask-image: linear-gradient(to right, #000, transparent);
-    }
+		&::before {
+			left: 0;
+			background: linear-gradient(to right, $color-white, transparent);
+			-webkit-mask-image: linear-gradient(to right, #000, transparent);
+			mask-image: linear-gradient(to right, #000, transparent);
+		}
 
-    &::after {
-      right: 0;
-      background: linear-gradient(to left, $color-white, transparent);
-      -webkit-mask-image: linear-gradient(to left, #000, transparent);
-      mask-image: linear-gradient(to left, #000, transparent);
-    }
-  }
+		&::after {
+			right: 0;
+			background: linear-gradient(to left, $color-white, transparent);
+			-webkit-mask-image: linear-gradient(to left, #000, transparent);
+			mask-image: linear-gradient(to left, #000, transparent);
+		}
+	}
 
-  &__track {
-    display: flex;
-    width: max-content;
-    will-change: transform;
-  }
+	&__track {
+		display: flex;
+		width: max-content;
+		will-change: transform;
+	}
 
-  &__group {
-    display: flex;
-    flex: 0 0 auto;
-    align-items: center;
-    justify-content: space-around;
-    gap: clamp(1.5rem, 3vw, 3rem);
-    width: max-content;
-    min-width: min(100vw, $content-max-width);
-    margin: 0;
-    padding: 0 clamp(0.75rem, 1.5vw, 1.5rem);
-    list-style: none;
-  }
+	&__group {
+		display: flex;
+		flex: 0 0 auto;
+		align-items: center;
+		justify-content: space-around;
+		gap: clamp(1.5rem, 3vw, 3rem);
+		width: max-content;
+		min-width: min(100vw, $content-max-width);
+		margin: 0;
+		padding: 0 clamp(0.75rem, 1.5vw, 1.5rem);
+		list-style: none;
+	}
 
-  &__brand {
-    display: flex;
-    flex: 0 0 130px;
-    align-items: center;
-    justify-content: center;
-    height: 100px;
+	&__brand {
+		display: flex;
+		flex: 0 0 130px;
+		align-items: center;
+		justify-content: center;
+		height: 100px;
 
-    img {
-      display: block;
-      width: auto;
-      max-width: 100%;
-      height: auto;
-      max-height: 80px;
-      object-fit: contain;
-    }
+		img {
+			display: block;
+			width: auto;
+			max-width: 100%;
+			height: auto;
+			max-height: 80px;
+			object-fit: contain;
+		}
 
-    @include desktop {
-      flex-basis: 200px;
-      height: 80px;
+		@include desktop {
+			flex-basis: 200px;
+			height: 80px;
 
-      img {
-        max-height: 70px;
-      }
-    }
-  }
+			img {
+				max-height: 70px;
+			}
+		}
+	}
 
-  @media (prefers-reduced-motion: reduce) {
-    &__viewport {
-      overflow-x: auto;
-      scrollbar-width: thin;
-    }
-  }
+	@media (prefers-reduced-motion: reduce) {
+		&__viewport {
+			overflow-x: auto;
+			scrollbar-width: thin;
+		}
+	}
 }
 
 .home-divider {
@@ -252,14 +256,14 @@
 		}
 
 		&:focus-visible {
-			outline: 2px solid $color-secondary;
+			outline: none;
 			outline-offset: 3px;
 		}
 	}
 
 	&__textarea {
 		min-height: 7rem;
-		resize: vertical;
+		resize: none;
 	}
 
 	&__btn-wrapper {
