@@ -1,0 +1,53 @@
+---
+// src/components/home/Brands.astro
+import logoMood from '../../assets/marcas/logomood.webp';
+import logoInfinity from '../../assets/marcas/logoinfinity.webp';
+import logoSupernova from '../../assets/marcas/logosupernova.webp';
+import logoConexo from '../../assets/marcas/logoconexo.webp';
+import logoSpVentures from '../../assets/marcas/logospventures.webp';
+import logoPublicPartners from '../../assets/marcas/logopublicpartners.webp';
+import { getRoutePath, useTranslations, type Lang } from '../../i18n/utils';
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const brands = [
+	{ name: 'Mood', image: logoMood, className: 'logo-brand--mood' },
+	{ name: 'Infinity Gaming Center', image: logoInfinity, className: 'logo-brand--infinity' },
+	{ name: 'Supernova', image: logoSupernova, className: 'logo-brand--supernova' },
+	{ name: 'Conexo', image: logoConexo, className: 'logo-brand--conexo' },
+	{ name: 'SP Ventures', image: logoSpVentures, className: 'logo-brand--spventures' },
+	{ name: 'Public Partners', image: logoPublicPartners, className: 'logo-brand--publicpartners' },
+] as const;
+---
+
+<section class="description-section" id="description-section" aria-label={t('brands.sectionLabel')}>
+	<div class="description-section__slider" role="region" aria-label={t('brands.sliderLabel')} tabindex="0">
+		<ul class="description-section__wrapper">
+			{brands.map(({ name, image, className }) => (
+				<li class:list={['logo-brand', className]}>
+					<img src={image.src} alt={name} width={image.width} height={image.height} loading="lazy" />
+				</li>
+			))}
+		</ul>
+	</div>
+
+	<div class="description-section__content">
+		<p class="description-section__text description-section__text--primary">
+			{t('brands.intro')}{' '}<strong>{t('brands.name')}</strong>{t('brands.primaryAfter')}
+		</p>
+
+		<div class="description-section__secondary">
+			<p class="description-section__text description-section__text--secondary">
+				<strong>{t('brands.verticals')}</strong><br />
+				{t('brands.secondary')}
+			</p>
+			<div class="description-section__btn-wrapper">
+				<a href={getRoutePath('about', lang)} class="btn btn--border">{t('brands.cta')}</a>
+			</div>
+		</div>
+	</div>
+</section>

@@ -78,8 +78,150 @@
 	}
 }
 
-.home-next {
-	min-height: 100vh;
-	min-height: 100dvh;
+.description-section {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2rem;
+	width: 100%;
+	max-width: 1440px;
+	margin-inline: auto;
+	padding: 2.2rem;
 	background-color: $color-white;
+
+	&__slider {
+		width: 100%;
+		overflow-x: auto;
+		overflow-y: hidden;
+		overscroll-behavior-x: contain;
+		scroll-snap-type: x mandatory;
+		scrollbar-width: none;
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
+
+		&:focus-visible {
+			outline: 2px solid $color-secondary;
+			outline-offset: 3px;
+		}
+	}
+
+	&__wrapper {
+		display: flex;
+		align-items: center;
+		gap: clamp(1rem, 3vw, 2.5rem);
+		width: max-content;
+		min-width: 100%;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.logo-brand {
+		display: flex;
+		flex: 0 0 130px;
+		align-items: center;
+		justify-content: center;
+		height: 100px;
+		scroll-snap-align: center;
+
+		img {
+			width: auto;
+			max-width: 100%;
+			height: auto;
+			max-height: 80px;
+			object-fit: contain;
+		}
+
+		@include desktop {
+			flex-basis: 200px;
+			height: 80px;
+
+			img {
+				max-height: 70px;
+			}
+		}
+	}
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		width: 100%;
+	}
+
+	&__text {
+		margin: 0;
+		line-height: 1.45;
+
+		&--primary {
+			max-width: 700px;
+			font-size: 1.25rem;
+		}
+
+		&--secondary {
+			font-size: 0.9rem;
+		}
+	}
+
+	&__secondary {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		width: 100%;
+	}
+
+	&__btn-wrapper {
+		display: flex;
+		justify-content: flex-start;
+	}
+
+	.btn--border {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 44px;
+		padding: 0.7rem 1.25rem;
+		border: 1px solid $color-primary;
+		color: $color-primary;
+		text-decoration: none;
+
+		&:hover {
+			background-color: $color-primary;
+			color: $color-white;
+		}
+
+		&:focus-visible {
+			outline: 2px solid $color-secondary;
+			outline-offset: 3px;
+		}
+	}
+
+	@include tablet {
+		&__text--primary {
+			font-size: 1.5rem;
+		}
+
+		&__secondary {
+			align-self: flex-end;
+			max-width: 450px;
+		}
+	}
+
+	@include desktop {
+		padding: 3rem 5rem;
+	}
+
+	@include maxDesktop {
+		padding: 3rem 7.5rem;
+
+		&__text--primary {
+			font-size: 2.5rem;
+		}
+
+		&__text--secondary {
+			font-size: 1.125rem;
+		}
+	}
 }
