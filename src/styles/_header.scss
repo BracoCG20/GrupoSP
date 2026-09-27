@@ -7,6 +7,9 @@
 }
 
 .nav {
+	max-width: $content-max-width;
+	inset-inline: 0;
+	margin-inline: auto;
 	position: fixed;
 	top: 0;
 	left: 0;

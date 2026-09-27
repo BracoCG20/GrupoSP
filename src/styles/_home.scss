@@ -19,7 +19,8 @@
 
 	&__content {
 		width: 100%;
-		max-width: 70rem;
+		max-width: $content-max-width;
+		margin-inline: auto;
 	}
 
 	&__title {
@@ -80,6 +81,8 @@
 
 .brands-loop {
   width: 100%;
+  max-width: $content-max-width;
+  margin-inline: auto;
   padding-block: 1.5rem;
   background-color: $color-white;
 
@@ -134,7 +137,7 @@
     justify-content: space-around;
     gap: clamp(1.5rem, 3vw, 3rem);
     width: max-content;
-    min-width: 100vw;
+    min-width: min(100vw, $content-max-width);
     margin: 0;
     padding: 0 clamp(0.75rem, 1.5vw, 1.5rem);
     list-style: none;
@@ -180,7 +183,7 @@
 	align-items: center;
 	gap: 2rem;
 	width: 100%;
-	max-width: 1440px;
+	max-width: $content-max-width;
 	margin-inline: auto;
 	padding: 2.2rem;
 	background-color: $color-white;
