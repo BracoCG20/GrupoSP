@@ -1,7 +1,8 @@
 ---
 // src/pages/en/index.astro
 import Hero from '../../components/home/Hero.astro';
-import Brands from '../../components/home/Brands.astro';
+import BrandLoop from '../../components/home/BrandLoop.astro';
+import DescriptionContent from '../../components/home/DescriptionContent.astro';
 import Layout from '../../layouts/Layout.astro';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
@@ -12,6 +13,7 @@ const t = useTranslations(lang);
 <Layout lang={lang} title={t('home.title')} description={t('home.description')}>
 	<main>
 		<Hero lang={lang} />
-		<Brands lang={lang} />
+		<BrandLoop lang={lang} />
+		<DescriptionContent lang={lang} />
 	</main>
 </Layout>

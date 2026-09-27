@@ -1,0 +1,28 @@
+---
+// src/components/home/DescriptionContent.astro
+import { getRoutePath, useTranslations, type Lang } from '../../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="description-section" id="holding-description" aria-label={t('brands.sectionLabel')}>
+  <div class="description-section__content">
+    <p class="description-section__text description-section__text--primary">
+      {t('brands.intro')}{' '}<strong>{t('brands.name')}</strong>{t('brands.primaryAfter')}
+    </p>
+    <div class="description-section__secondary">
+      <p class="description-section__text description-section__text--secondary">
+        <strong>{t('brands.verticals')}</strong><br />
+        {t('brands.secondary')}
+      </p>
+      <div class="description-section__btn-wrapper">
+        <a href={getRoutePath('about', lang)} class="btn btn--border">{t('brands.cta')}</a>
+      </div>
+    </div>
+  </div>
+</section>

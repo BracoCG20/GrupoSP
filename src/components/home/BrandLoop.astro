@@ -1,0 +1,121 @@
+---
+// src/components/home/BrandLoop.astro
+import logoMood from '../../assets/marcas/logomood.webp';
+import logoInfinity from '../../assets/marcas/logoinfinity.webp';
+import logoSupernova from '../../assets/marcas/logosupernova.webp';
+import logoConexo from '../../assets/marcas/logoconexo.webp';
+import logoSpVentures from '../../assets/marcas/logospventures.webp';
+import logoPublicPartners from '../../assets/marcas/logopublicpartners.webp';
+import { useTranslations, type Lang } from '../../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const brands = [
+  { name: 'Mood', image: logoMood },
+  { name: 'Infinity Gaming Center', image: logoInfinity },
+  { name: 'Supernova', image: logoSupernova },
+  { name: 'Conexo', image: logoConexo },
+  { name: 'SP Ventures', image: logoSpVentures },
+  { name: 'Public Partners', image: logoPublicPartners },
+] as const;
+---
+
+<section class="brands-loop" id="description-section" aria-label={t('brands.sliderLabel')}>
+  <div class="brands-loop__viewport" role="region" aria-label={t('brands.sliderLabel')} tabindex="0">
+    <div class="brands-loop__track">
+      <ul class="brands-loop__group">
+        {brands.map(({ name, image }) => (
+          <li class="brands-loop__brand">
+            <img src={image.src} alt={name} width={image.width} height={image.height} loading="lazy" />
+          </li>
+        ))}
+      </ul>
+      <ul class="brands-loop__group" aria-hidden="true">
+        {brands.map(({ image }) => (
+          <li class="brands-loop__brand">
+            <img src={image.src} alt="" width={image.width} height={image.height} loading="lazy" />
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from 'gsap';
+
+  let dispose = () => {};
+
+  function initBrandLoop() {
+    dispose();
+
+    const viewport = document.querySelector<HTMLElement>('.brands-loop__viewport');
+    const track = viewport?.querySelector<HTMLElement>('.brands-loop__track');
+    const group = viewport?.querySelector<HTMLElement>('.brands-loop__group');
+    if (!viewport || !track || !group) return;
+
+    const controller = new AbortController();
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let loop: gsap.core.Tween | undefined;
+    let speedChange: gsap.core.Tween | undefined;
+
+    const start = () => {
+      speedChange?.kill();
+      loop?.kill();
+      gsap.set(track, { x: 0 });
+
+      if (reducedMotion.matches) return;
+      const distance = group.getBoundingClientRect().width;
+      if (distance <= 0) return;
+
+      loop = gsap.to(track, {
+        x: -distance,
+        duration: distance / 60,
+        ease: 'none',
+        repeat: -1,
+      });
+    };
+
+    const setSpeed = (value: number) => {
+      if (!loop) return;
+      speedChange?.kill();
+      speedChange = gsap.to(loop, {
+        timeScale: value,
+        duration: 0.65,
+        ease: 'power2.out',
+      });
+    };
+
+    viewport.querySelectorAll<HTMLElement>('.brands-loop__brand').forEach((brand) => {
+      brand.addEventListener('pointerenter', () => setSpeed(0), { signal: controller.signal });
+      brand.addEventListener('pointerleave', () => setSpeed(1), { signal: controller.signal });
+    });
+    viewport.addEventListener('focusin', () => setSpeed(0), { signal: controller.signal });
+    viewport.addEventListener('focusout', () => setSpeed(1), { signal: controller.signal });
+    reducedMotion.addEventListener('change', start, { signal: controller.signal });
+
+    const observer = new ResizeObserver(start);
+    observer.observe(group);
+    start();
+
+    dispose = () => {
+      controller.abort();
+      observer.disconnect();
+      speedChange?.kill();
+      loop?.kill();
+      gsap.set(track, { clearProps: 'transform' });
+    };
+  }
+
+  document.addEventListener('astro:page-load', initBrandLoop);
+  document.addEventListener('astro:before-swap', () => dispose());
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBrandLoop, { once: true });
+  } else {
+    initBrandLoop();
+  }
+</script>
