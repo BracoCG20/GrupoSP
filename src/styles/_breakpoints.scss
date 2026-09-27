@@ -1,0 +1,36 @@
+// src/styles/_breakpoints.scss
+$breakpoint-390: 390px;
+$breakpoint-440: 440px;
+$breakpoint-768: 768px;
+$breakpoint-1024: 1024px;
+$breakpoint-1440: 1440px;
+
+@mixin from-390 {
+  @media (min-width: $breakpoint-390) {
+    @content;
+  }
+}
+
+@mixin from-440 {
+  @media (min-width: $breakpoint-440) {
+    @content;
+  }
+}
+
+@mixin from-768 {
+  @media (min-width: $breakpoint-768) {
+    @content;
+  }
+}
+
+@mixin from-1024 {
+  @media (min-width: $breakpoint-1024) {
+    @content;
+  }
+}
+
+@mixin from-1440 {
+  @media (min-width: $breakpoint-1440) {
+    @content;
+  }
+}
