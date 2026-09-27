@@ -1,0 +1,48 @@
+---
+// src/components/footer.astro
+import { ArrowUp, ArrowUpRight } from '@lucide/astro';
+import logo from '../assets/logo.webp';
+import { useTranslations, type Lang } from '../i18n/utils';
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+	<div class="footer__inner">
+		<a class="footer__scroll-top" href="#" aria-label={t('footer.backToTop')}>
+			<ArrowUp aria-hidden="true" size={28} />
+		</a>
+
+		<div class="footer__brand-info">
+			<img class="footer__logo" src={logo.src} alt="Grupo SP" width={logo.width} height={logo.height} loading="lazy" />
+			<p class="footer__tagline">{t('footer.tagline')}</p>
+		</div>
+
+		<div class="footer__main-content">
+			<div class="footer__socials">
+				<a class="footer__social-link" href="https://www.instagram.com/gruposplatam/?hl=es" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+					<span>Instagram</span><ArrowUpRight aria-hidden="true" size={18} />
+				</a>
+				<a class="footer__social-link" href="https://www.linkedin.com/company/grupo-sp-latam/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+					<span>LinkedIn</span><ArrowUpRight aria-hidden="true" size={18} />
+				</a>
+			</div>
+
+			<div class="footer__regional-presence">
+				<span class="footer__presence-title">{t('footer.presence')}</span>
+				<p class="footer__countries-list">{t('footer.countries')}</p>
+				<address class="footer__address">{t('footer.address')}</address>
+			</div>
+
+			<a class="footer__mail-link" href="mailto:contacto@gruposp.pe">contacto@gruposp.pe</a>
+		</div>
+
+		<small class="footer__legacy">Grupo SP © {year} — {t('footer.rights')}</small>
+	</div>
+</footer>

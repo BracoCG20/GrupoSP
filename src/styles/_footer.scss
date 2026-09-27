@@ -1,0 +1,140 @@
+// src/styles/_footer.scss
+@use "variables" as *;
+@use "breakpoints" as *;
+
+.footer {
+	grid-area: footer;
+	width: 100%;
+	padding: 1.5rem 2.2rem;
+	background-color: $color-primary;
+	color: $color-white;
+
+	&__inner {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 2rem;
+		width: 100%;
+		max-width: $content-max-width;
+		margin-inline: auto;
+	}
+
+	&__scroll-top,
+	&__social-link {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 44px;
+		min-height: 44px;
+		color: inherit;
+		text-decoration: none;
+
+		&:focus-visible {
+			outline: 2px solid $color-secondary;
+			outline-offset: 3px;
+		}
+	}
+
+	&__social-link {
+		gap: 0.25rem;
+		font-size: 0.8rem;
+	}
+
+	&__brand-info {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.75rem;
+		width: 100%;
+	}
+
+	&__logo {
+		display: block;
+		width: 130px;
+		height: auto;
+	}
+
+	&__tagline {
+		margin: 0;
+		text-align: center;
+		font-size: clamp(0.85rem, 2vw, 1.25rem);
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+	}
+
+	&__main-content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1.5rem;
+		width: 100%;
+	}
+
+	&__socials {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	&__regional-presence {
+		max-width: 24rem;
+		text-align: center;
+	}
+
+	&__presence-title {
+		font-size: 0.85rem;
+		font-weight: 600;
+		text-transform: uppercase;
+	}
+
+	&__countries-list,
+	&__address {
+		margin: 0.5rem 0 0;
+		font-size: 0.8rem;
+		font-style: normal;
+		line-height: 1.5;
+	}
+
+	&__mail-link {
+		color: inherit;
+		font-size: 0.8rem;
+		overflow-wrap: anywhere;
+
+		&:focus-visible {
+			outline: 2px solid $color-secondary;
+			outline-offset: 3px;
+		}
+	}
+
+	&__legacy {
+		font-size: 0.7rem;
+		text-align: center;
+	}
+
+	@include tablet {
+		padding: 2.5rem 4rem;
+	}
+
+	@include desktop {
+		&__brand-info {
+			flex-direction: row;
+			justify-content: space-between;
+		}
+
+		&__main-content {
+			display: grid;
+			grid-template-columns: auto minmax(0, 1fr) auto;
+			align-items: start;
+			gap: 2rem;
+		}
+
+		&__regional-presence {
+			justify-self: center;
+			text-align: left;
+		}
+	}
+
+	@include maxDesktop {
+		padding: 3rem 7.5rem;
+	}
+}

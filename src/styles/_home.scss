@@ -177,6 +177,118 @@
   }
 }
 
+.home-divider {
+	width: calc(100% - 4.4rem);
+	max-width: $content-max-width;
+	margin: 1rem auto;
+	border: 0;
+	border-top: 1px solid rgba($color-primary, 0.19);
+}
+
+.contact-form-section {
+	width: 100%;
+	max-width: $content-max-width;
+	margin-inline: auto;
+	padding: 2.2rem;
+	color: $color-primary;
+
+	&__title {
+		margin: 0;
+		font-size: clamp(2rem, 4vw, 3rem);
+		font-weight: 300;
+		line-height: 1.2;
+	}
+
+	&__subtitle {
+		max-width: 44rem;
+		margin: 1.25rem 0 2rem;
+		font-size: 0.9rem;
+		line-height: 1.5;
+	}
+
+	@include desktop {
+		padding: 2.5rem 5rem;
+	}
+
+	@include maxDesktop {
+		padding: 2.5rem 7.5rem;
+	}
+}
+
+.contact-form {
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
+	width: 100%;
+
+	&__label {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		white-space: nowrap;
+		clip-path: inset(50%);
+	}
+
+	&__input,
+	&__textarea {
+		width: 100%;
+		min-width: 0;
+		padding: 0.7rem 0;
+		border: 0;
+		border-bottom: 1px solid $color-primary;
+		border-radius: 0;
+		background: transparent;
+		color: $color-primary;
+		font: inherit;
+		font-size: 0.9rem;
+
+		&::placeholder {
+			color: $color-primary;
+			font-size: 0.8rem;
+			opacity: 1;
+		}
+
+		&:focus-visible {
+			outline: 2px solid $color-secondary;
+			outline-offset: 3px;
+		}
+	}
+
+	&__textarea {
+		min-height: 7rem;
+		resize: vertical;
+	}
+
+	&__btn-wrapper {
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	&__submit {
+		min-width: 150px;
+		min-height: 44px;
+		padding: 0.5rem 1rem;
+		border: 0;
+		background: $color-primary;
+		color: $color-white;
+		font: inherit;
+		font-size: 0.75rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		cursor: not-allowed;
+		opacity: 0.65;
+	}
+
+	&__notice {
+		margin: -0.5rem 0 0;
+		font-size: 0.75rem;
+		text-align: right;
+	}
+}
+
 .description-section {
 	display: flex;
 	flex-direction: column;

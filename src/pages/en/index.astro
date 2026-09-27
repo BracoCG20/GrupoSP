@@ -3,6 +3,7 @@
 import Hero from '../../components/home/Hero.astro';
 import BrandLoop from '../../components/home/BrandLoop.astro';
 import DescriptionContent from '../../components/home/DescriptionContent.astro';
+import ContactSection from '../../components/home/ContactSection.astro';
 import Layout from '../../layouts/Layout.astro';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
@@ -15,5 +16,7 @@ const t = useTranslations(lang);
 		<Hero lang={lang} />
 		<BrandLoop lang={lang} />
 		<DescriptionContent lang={lang} />
+		<hr class="home-divider" />
+		<ContactSection lang={lang} />
 	</main>
 </Layout>
