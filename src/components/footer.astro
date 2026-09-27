@@ -1,6 +1,6 @@
 ---
 // src/components/footer.astro
-import { ArrowUp, ArrowUpRight } from '@lucide/astro';
+import { ChevronUp } from '@lucide/astro';
 import logo from '../assets/logo.webp';
 import { useTranslations, type Lang } from '../i18n/utils';
 
@@ -16,7 +16,7 @@ const year = new Date().getFullYear();
 <footer class="footer">
 	<div class="footer__inner">
 		<a class="footer__scroll-top" href="#" aria-label={t('footer.backToTop')}>
-			<ArrowUp aria-hidden="true" size={28} />
+			<ChevronUp aria-hidden="true" size={28} strokeWidth={3} />
 		</a>
 
 		<div class="footer__brand-info">
@@ -25,15 +25,6 @@ const year = new Date().getFullYear();
 		</div>
 
 		<div class="footer__main-content">
-			<div class="footer__socials">
-				<a class="footer__social-link" href="https://www.instagram.com/gruposplatam/?hl=es" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-					<span>Instagram</span><ArrowUpRight aria-hidden="true" size={18} />
-				</a>
-				<a class="footer__social-link" href="https://www.linkedin.com/company/grupo-sp-latam/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-					<span>LinkedIn</span><ArrowUpRight aria-hidden="true" size={18} />
-				</a>
-			</div>
-
 			<div class="footer__regional-presence">
 				<span class="footer__presence-title">{t('footer.presence')}</span>
 				<p class="footer__countries-list">{t('footer.countries')}</p>
@@ -41,8 +32,21 @@ const year = new Date().getFullYear();
 			</div>
 
 			<a class="footer__mail-link" href="mailto:contacto@gruposp.pe">contacto@gruposp.pe</a>
+
+			<div class="footer__socials">
+				<a class="footer__social-link" href="https://www.instagram.com/gruposplatam/?hl=es" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+					<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+						<path fill="currentColor" fill-rule="evenodd" d="M7.465 1.066C8.638 1.012 9.012 1 12 1s3.362.013 4.534.066s1.972.24 2.672.511c.733.277 1.398.71 1.948 1.27c.56.549.992 1.213 1.268 1.947c.272.7.458 1.5.512 2.67C22.988 8.639 23 9.013 23 12s-.013 3.362-.066 4.535c-.053 1.17-.24 1.97-.512 2.67a5.4 5.4 0 0 1-1.268 1.949c-.55.56-1.215.992-1.948 1.268c-.7.272-1.5.458-2.67.512c-1.174.054-1.548.066-4.536.066s-3.362-.013-4.535-.066c-1.17-.053-1.97-.24-2.67-.512a5.4 5.4 0 0 1-1.949-1.268a5.4 5.4 0 0 1-1.269-1.948c-.271-.7-.457-1.5-.511-2.67C1.012 15.361 1 14.987 1 12s.013-3.362.066-4.534s.24-1.972.511-2.672a5.4 5.4 0 0 1 1.27-1.948a5.4 5.4 0 0 1 1.947-1.269c.7-.271 1.5-.457 2.67-.511m8.98 1.98c-1.16-.053-1.508-.064-4.445-.064s-3.285.011-4.445.064c-1.073.049-1.655.228-2.043.379c-.513.2-.88.437-1.265.822a3.4 3.4 0 0 0-.822 1.265c-.151.388-.33.97-.379 2.043c-.053 1.16-.064 1.508-.064 4.445s.011 3.285.064 4.445c.049 1.073.228 1.655.379 2.043c.176.477.457.91.822 1.265c.355.365.788.646 1.265.822c.388.151.97.33 2.043.379c1.16.053 1.507.064 4.445.064s3.285-.011 4.445-.064c1.073-.049 1.655-.228 2.043-.379c.513-.2.88-.437 1.265-.822c.365-.355.646-.788.822-1.265c.151-.388.33-.97.379-2.043c.053-1.16.064-1.508.064-4.445s-.011-3.285-.064-4.445c-.049-1.073-.228-1.655-.379-2.043c-.2-.513-.437-.88-.822-1.265a3.4 3.4 0 0 0-1.265-.822c-.388-.151-.97-.33-2.043-.379m-5.85 12.345a3.669 3.669 0 0 0 4-5.986a3.67 3.67 0 1 0-4 5.986M8.002 8.002a5.654 5.654 0 1 1 7.996 7.996a5.654 5.654 0 0 1-7.996-7.996m10.906-.814a1.337 1.337 0 1 0-1.89-1.89a1.337 1.337 0 0 0 1.89 1.89" clip-rule="evenodd" />
+					</svg>
+				</a>
+				<a class="footer__social-link" href="https://www.linkedin.com/company/grupo-sp-latam/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+					<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+						<path fill="currentColor" fill-rule="evenodd" d="M9.429 8.969h3.714v1.85c.535-1.064 1.907-2.02 3.968-2.02c3.951 0 4.889 2.118 4.889 6.004V22h-4v-6.312c0-2.213-.535-3.461-1.897-3.461c-1.889 0-2.674 1.345-2.674 3.46V22h-4zM2.57 21.83h4V8.799h-4zM7.143 4.55a2.53 2.53 0 0 1-.753 1.802a2.57 2.57 0 0 1-1.82.748a2.6 2.6 0 0 1-1.818-.747A2.55 2.55 0 0 1 2 4.55c0-.677.27-1.325.753-1.803A2.58 2.58 0 0 1 4.571 2c.682 0 1.336.269 1.819.747s.753 1.126.753 1.803" clip-rule="evenodd" />
+					</svg>
+				</a>
+			</div>
 		</div>
 
-		<small class="footer__legacy">Grupo SP © {year} — {t('footer.rights')}</small>
+		<small class="footer__legacy">Grupo SP © {year} - {t('footer.rights')}</small>
 	</div>
 </footer>

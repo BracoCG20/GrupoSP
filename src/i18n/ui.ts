@@ -38,7 +38,7 @@ export const ui = {
 		'footer.tagline': 'Creatividad, Estrategia y Expansión',
 		'footer.presence': 'Presencia regional',
 		'footer.countries': 'Perú • Colombia • Panamá • Chile • Ecuador',
-		'footer.address': 'Av. Alberto del Campo 409, piso 504, Magdalena del Mar, Lima 15076, Perú',
+		'footer.address': 'Av. Alberto del Campo 409 Piso 504, Magdalena del Mar, Lima, 15076, PERU',
 		'footer.rights': 'Todos los derechos reservados.',
 	},
 	en: {
