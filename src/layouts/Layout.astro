@@ -8,14 +8,18 @@ interface Props {
 	lang?: 'es' | 'en';
 	image?: string;
 	imageAlt?: string;
+	imageWidth?: number;
+	imageHeight?: number;
 }
 
 const {
 	title = 'Inicio - GrupoSP',
 	description = 'Grupo SP: Holding latinoamericano de Creatividad, Estrategia y Expansión. Impulsamos proyectos en Marketing Services, Retail y Ventures en Perú, Colombia, Panamá, Chile y México.',
 	lang = Astro.url.pathname === '/en' || Astro.url.pathname.startsWith('/en/') ? 'en' : 'es',
-	image,
+	image = '/bgMain.webp',
 	imageAlt = 'GrupoSP Banner Principal',
+	imageWidth,
+	imageHeight,
 } = Astro.props;
 
 const siteUrl = new URL('https://gruposp.pe');
@@ -25,6 +29,8 @@ const spanishUrl = new URL(spanishPath, siteUrl).toString();
 const englishUrl = new URL(`/en${spanishPath === '/' ? '' : spanishPath}`, siteUrl).toString();
 const canonicalUrl = lang === 'en' ? englishUrl : spanishUrl;
 const imageUrl = image ? new URL(image, siteUrl).toString() : undefined;
+const resolvedImageWidth = imageWidth ?? (image === '/bgMain.webp' ? 2912 : undefined);
+const resolvedImageHeight = imageHeight ?? (image === '/bgMain.webp' ? 1632 : undefined);
 ---
 <!doctype html>
 <html lang={lang}>
@@ -48,6 +54,8 @@ const imageUrl = image ? new URL(image, siteUrl).toString() : undefined;
 		<meta property="og:description" content={description} />
 		<meta property="og:url" content={canonicalUrl} />
 		{imageUrl && <meta property="og:image" content={imageUrl} />}
+		{imageUrl && resolvedImageWidth && <meta property="og:image:width" content={resolvedImageWidth.toString()} />}
+		{imageUrl && resolvedImageHeight && <meta property="og:image:height" content={resolvedImageHeight.toString()} />}
 		{imageUrl && <meta property="og:image:alt" content={imageAlt} />}
 
 		<meta name="twitter:card" content="summary_large_image" />
