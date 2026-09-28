@@ -105,8 +105,6 @@
 }
 
 .sidebar {
-	--sidebar-accent: #{$color-secondary};
-
 	position: fixed;
 	top: 0;
 	right: 0;
@@ -172,16 +170,15 @@
 		}
 	}
 
-	&__char {
-		display: inline-block;
-		white-space: pre;
-		will-change: transform;
-	}
-
 	&__language,
 	&__link,
 	.btn--contact {
 		display: inline-block;
+
+		&:hover {
+			background-color: $color-secondary;
+			color: $color-primary;
+		}
 	}
 
 	&__language:focus-visible,
