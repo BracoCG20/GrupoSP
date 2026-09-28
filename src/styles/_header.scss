@@ -17,7 +17,9 @@
 	z-index: 90;
 	width: 100%;
 	background-color: transparent;
-	transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+	transition:
+		background-color 0.3s ease,
+		backdrop-filter 0.3s ease;
 
 	&--scrolled {
 		background-color: rgba(0, 0, 0, 0.2);
@@ -62,7 +64,7 @@
 		display: none;
 	}
 
-	&__toggle[aria-expanded='true'] {
+	&__toggle[aria-expanded="true"] {
 		color: $color-white;
 
 		.nav__icon--menu {
@@ -87,13 +89,13 @@
 
 	@include desktop {
 		&__inner {
-			padding: 1rem 5rem;
+			padding: 1rem 4rem;
 		}
 	}
 
 	@include maxDesktop {
 		&__inner {
-			padding: 1.1rem 6.25rem;
+			padding: 1.1rem 3rem;
 		}
 	}
 }
@@ -115,7 +117,7 @@
 	width: min(100%, 300px);
 	height: 100vh;
 	height: 100dvh;
-	padding: 6.5rem 2.5rem 2.5rem;
+	padding: 2.5rem;
 	background-color: rgba(32, 26, 26, 0.92);
 	-webkit-backdrop-filter: blur(10px);
 	backdrop-filter: blur(10px);
@@ -132,7 +134,7 @@
 
 	&__language {
 		color: $color-white;
-		font-size: 1.25rem;
+		font-size: 1.5rem;
 		font-weight: 700;
 		text-decoration: underline;
 	}
@@ -140,10 +142,12 @@
 	.btn--contact {
 		align-self: flex-start;
 		padding: 0.75rem 1.25rem;
-		border: 1px solid $color-secondary;
+		background-color: $color-primary;
 		color: $color-white;
-		font-weight: 600;
+		font-size: 1.2rem;
+		font-weight: 700;
 		text-decoration: none;
+		text-transform: uppercase;
 	}
 
 	&__menu {
@@ -158,13 +162,12 @@
 
 	&__link {
 		color: rgba(255, 255, 255, 0.8);
-		font-size: 1.2rem;
-		font-weight: 500;
+		font-size: 1.5rem;
+		font-weight: 700;
 		text-decoration: none;
 		text-transform: uppercase;
 
-		&--active,
-		&:hover {
+		&--active {
 			color: $color-secondary;
 		}
 	}

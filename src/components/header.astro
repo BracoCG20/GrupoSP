@@ -36,7 +36,6 @@ const menuLinks = [
 				data-label-close={t('header.menu.close')}
 			>
 				<Menu class="nav__icon nav__icon--menu" size={32} stroke-width={2.5} aria-hidden="true" />
-				<X class="nav__icon nav__icon--close" size={32} stroke-width={2.5} aria-hidden="true" />
 			</button>
 		</div>
 	</nav>
@@ -121,7 +120,6 @@ const menuLinks = [
 			gsap.killTweensOf(sidebar);
 			gsap.killTweensOf(allCharacters);
 			toggle.setAttribute('aria-expanded', String(open));
-			toggle.setAttribute('aria-label', toggle.dataset[open ? 'labelClose' : 'labelOpen'] ?? '');
 			header.classList.toggle('header--menu-open', open);
 			sidebar.toggleAttribute('inert', !open);
 			sidebar.setAttribute('aria-hidden', String(!open));
@@ -191,8 +189,6 @@ const menuLinks = [
 					y: 0, duration: 0.2, stagger: 0.02, overwrite: 'auto',
 				});
 			};
-			link.addEventListener('pointerenter', accent, { signal });
-			link.addEventListener('pointerleave', reset, { signal });
 			link.addEventListener('focus', accent, { signal });
 			link.addEventListener('blur', reset, { signal });
 		});
